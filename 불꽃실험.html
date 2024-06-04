@@ -35,27 +35,32 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 500%;
-            background: linear-gradient(to top, #ff8000, #ffc000);
-            border-radius: 50% 50% 0 0;
+            width: 10px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ff8000, #ffae00);
+            border-radius: 100% 100% 80% 80%;
             animation: flame 1s ease-in-out infinite;
-            cursor: move;
+            opacity: 0.8;
+            z-index: 10;
         }
         
         @keyframes flame {
             0% {
-                height: 70%;
+                height: 120%;
+                width: 30%;
             }
             50% {
-                height: 65%;
+                height: 110%;
+                width: 33%;
             }
             100% {
-                height: 70%;
+                height: 120%;
+                width: 30%;
             }
         }
         
         .button {
+            z-index: 999;
             padding: 10px 20px;
             font-size: 18px;
             background-color: #4CAF50;
@@ -101,14 +106,54 @@
             justify-content: center;
             cursor: move;
         }
+
+        .candle{
+            position: absolute;
+            width: 450px;
+            height: 350px;
+            margin-top: 350px;
+            background-color: white;
+            border-radius: 10% 10% 0 0;
+        }
+        .candle-trash
+        {
+            position: absolute;
+            margin-bottom: 30px;
+            background-color: rgb(107, 69, 69);
+            width: 15px;
+            height: 35px;
+            opacity: 0.6;
+        }
+        .tutorial
+        {
+            z-index: 1000000;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            opacity: 0.6;
+        }
+        .speech-balloon
+        {
+            background-color: white;
+            width: 500px;
+            height: 100px;
+            z-index: 50000000;
+            border-radius: 10% 10% 10% 10%;
+        }
     </style>
 </head>
 
 <body>
-    <div class="fire-container">
-        <div class="fire"></div>
-    </div>
+        <div class="tutorial"></div>
+        <div class="speech-balloon"></div>
 
+        <div class="fire-container">
+            <div class="fire"></div>
+        </div>
+        <div class="candle"></div>
+        <div class="candle-trash"></div>
+        
     <div class="circle-container">
         <div class="circle"></div>
     </div>
@@ -185,22 +230,22 @@
                 ) {
                     const selectedValue = selectInputElement.value;
                     if (selectedValue === 'Li') {
-                        fireElement.style.background = 'red';
+                        fireElement.style.background = 'linear-gradient(to bottom, red, #ff854d)';
                     } else if (selectedValue === 'Na') {
-                        fireElement.style.background = 'yellow';
+                        fireElement.style.background = 'linear-gradient(to bottom, yellow, #fff27a)';
                     } else if (selectedValue === 'Ca') {
-                        fireElement.style.background = 'orange';
+                        fireElement.style.background = 'linear-gradient(to bottom, orange, #ffb152)';
                     } else if (selectedValue === 'Cu') {
-                        fireElement.style.background = 'teal';
+                        fireElement.style.background = 'linear-gradient(to bottom, teal, #998aff)';
                     } else if (selectedValue === 'K') {
-                        fireElement.style.background = 'purple';
+                        fireElement.style.background = 'linear-gradient(to bottom, purple, #c48aff)';
                     } else if (selectedValue === 'Sr') {
-                        fireElement.style.background = 'red';
+                        fireElement.style.background = 'linear-gradient(to bottom, red, #ff8a8a)';
                     } else if (selectedValue === 'Ba') {
-                        fireElement.style.background = 'lime';
+                        fireElement.style.background = 'linear-gradient(to bottom, #7c9753, #b5dd78)';
                     }
                 } else {
-                    fireElement.style.background = 'linear-gradient(to top, #ff8000, #ffc000)';
+                    fireElement.style.background = 'linear-gradient(to bottom, #ff8000, #ffae00)';
                 }
             }
         }
@@ -215,12 +260,51 @@
             circleElement.innerText = selectedValue;
 
             // 불꽃과 접촉하지 않은 상태로 변경
-            fireElement.style.background = 'linear-gradient(to top, #ff8000, #ffc000)';
+            fireElement.style.background = 'linear-gradient(to bottom, #ff8000, #ffae00)';
         }
 
         function goToMain() {
             window.location.href = 'index.html';
         }
+        window.addEventListener('load', function() {
+    const tutorialElement = document.querySelector('.tutorial');
+    const circleContainer = document.querySelector('.circle-container');
+    const speechBalloon = document.querySelector('.speech-balloon');
+    const selecter = document.querySelector('#select-input');
+    let idx = 0;
+
+    const selecterContainerRect = selecter.getBoundingClientRect();
+    let speechHeight = speechBalloon.offsetHeight;
+    let speechWidth = speechBalloon.offsetWidth;
+    idx+=1;
+
+    speechBalloon.style.position = 'absolute';
+    speechBalloon.style.top = selecterContainerRect.top - speechHeight - 20 + 'px'; // 20px는 여백을 조절하는 값입니다.
+    speechBalloon.style.left = selecterContainerRect.left -200+ 'px';
+
+    selecter.style.backgroundColor = "white";
+    selecter.style.zIndex = 1000000;
+    tutorialElement.style.display = 'block';
+    speechBalloon.textContent = "선택.";  
+    
+    if (event.type === 'mousedown') {
+        const circleContainerRect = circleContainer.getBoundingClientRect();
+    speechHeight = speechBalloon.offsetHeight;
+    speechWidth = speechBalloon.offsetWidth;
+    idx+=1;
+
+    speechBalloon.style.position = 'absolute';
+    speechBalloon.style.top = circleContainerRect.top - speechHeight - 20 + 'px'; // 20px는 여백을 조절하는 값입니다.
+    speechBalloon.style.left = circleContainerRect.left -200+ 'px';
+
+    circleContainer.style.backgroundColor = "white";
+    circleContainer.style.zIndex = 1000000;
+    tutorialElement.style.display = 'block';
+    speechBalloon.textContent = "이것을 끌어서 불꽃에 가져다 둡니다.";  
+    }
+});
+
+
     </script>
 </body>
 
