@@ -112,8 +112,8 @@
         .candle{
             position: absolute;
             width: 450px;
-            height: 350px;
-            margin-top: 350px;
+            height: 329px;
+            margin-top: 335px;
             background-color: white;
             border-radius: 10% 10% 0 0;
         }
@@ -146,11 +146,19 @@
             margin: 0 auto;
             
         }
+            .onemoretutorial {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 30px;
+    }
+
     </style>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 </head>
 
 <body>
+    <div class="onemoretutorial" onclick="firsttutorial()">(?)</div>
         <div class="tutorial"></div>
         <div class="speech-balloon"></div>
 
@@ -196,7 +204,6 @@
         window.addEventListener('touchmove', drag);
         window.addEventListener('mouseup', stopDrag);
         window.addEventListener('touchend', stopDrag);
-
         function startDrag(event) {
             event.preventDefault();
             isDragging = true;
@@ -282,9 +289,9 @@
     const selecterContainerRect = selecter.getBoundingClientRect();
     let speechHeight = speechBalloon.offsetHeight;
     let speechWidth = speechBalloon.offsetWidth;
-
+    speechBalloon.style.display="block";
     speechBalloon.style.position = 'absolute';
-    speechBalloon.style.top = selecterContainerRect.top - speechHeight - 20 + 'px'; // 20px는 여백을 조절하는 값입니다.
+    speechBalloon.style.top = selecterContainerRect.top - speechHeight - 10 + 'px'; // 20px는 여백을 조절하는 값입니다.
     speechBalloon.style.left = selecterContainerRect.left -500+ 'px';
 
     selecter.style.zIndex = 1000000;
@@ -292,8 +299,8 @@
     speechBalloon.textContent = "다음 원소기호 중 하나를 고르세요."; 
     setTimeout(function() {
         secondtutorial();
-        selecter.style.zIndex=100;
-}, 3000);
+        selecter.style.zIndex=0;
+}, 2000);
 
         
     }
@@ -301,6 +308,7 @@
     const tutorialElement = document.querySelector('.tutorial');
     const speechBalloon = document.querySelector('.speech-balloon');
     const circle = document.querySelector('.circle'); // circle 요소 추가
+    const circlecon = document.querySelector('.circle-container');
     let speechHeight = speechBalloon.offsetHeight;
     let speechWidth = speechBalloon.offsetWidth;
     const circleContainerRect = circle.getBoundingClientRect();
@@ -311,16 +319,17 @@
     speechBalloon.style.top = circleContainerRect.top - speechHeight - 20 + 'px'; // 20px는 여백을 조절하는 값입니다.
     speechBalloon.style.left = circleContainerRect.left - 200 + 'px';
     circle.style.zIndex = 1000000;
+    circlecon.style.zIndex=1000000;
     tutorialElement.style.display = 'block';
     speechBalloon.textContent = "이것을 끌어서 불꽃에 가져다 둡니다.";
 
     setTimeout(function () {
-        circle.zIndex=300;
-        tutorialElement.style.zIndex = -100;
+        circle.style.zIndex=300;
+        circlecon.style.zIndex=0;
         tutorialElement.style.display = "none";
         speechBalloon.style.display = "none";
         flag=true;
-    }, 3000);
+    }, 2000);
 }
 
    </script>
