@@ -92,8 +92,11 @@
         
         .circle-container {
             position: absolute;
-            right: 300px;
+            right: 270px;
             transform: translate(50%, -50%);
+            display: flex;
+            width: 80px;
+            height: 80px;
         }
         
         .circle {
@@ -104,7 +107,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: move;
         }
 
         .candle{
@@ -140,8 +142,12 @@
             height: 100px;
             z-index: 50000000;
             border-radius: 10% 10% 10% 10%;
+            text-align: center;
+            margin: 0 auto;
+            
         }
     </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 </head>
 
 <body>
@@ -153,11 +159,9 @@
         </div>
         <div class="candle"></div>
         <div class="candle-trash"></div>
-        
-    <div class="circle-container">
-        <div class="circle"></div>
-    </div>
-
+        <div class="circle-container">
+    <div class="circle"></div>
+</div>
     <div class="input-container">
         <select id="select-input" onchange="updateCircleText()" ontouchstart="updateCircleText()">
       <option value="">원소 기호를 선택하세요.</option>
@@ -177,6 +181,7 @@
         const circleElement = document.querySelector('.circle');
         const selectInputElement = document.getElementById('select-input');
         const fireElement = document.querySelector('.fire');
+        let flag = false;
 
         // 원을 드래그할 수 있도록 설정
         let isDragging = false;
@@ -195,17 +200,17 @@
         function startDrag(event) {
             event.preventDefault();
             isDragging = true;
-            if (event.type === 'mousedown') {
+            if (event.type === 'mousedown' && flag==true) {
                 offset.x = event.clientX - circleElement.getBoundingClientRect().left;
                 offset.y = event.clientY - circleElement.getBoundingClientRect().top;
-            } else if (event.type === 'touchstart') {
+            } else if (event.type === 'touchstart' && flag==true) {
                 offset.x = event.touches[0].clientX - circleElement.getBoundingClientRect().left;
                 offset.y = event.touches[0].clientY - circleElement.getBoundingClientRect().top;
             }
         }
 
         function drag(event) {
-            if (isDragging) {
+            if (isDragging && flag==true) {
                 event.preventDefault();
                 const containerRect = circleElement.parentElement.getBoundingClientRect();
                 let x, y;
@@ -267,45 +272,58 @@
             window.location.href = 'index.html';
         }
         window.addEventListener('load', function() {
-    const tutorialElement = document.querySelector('.tutorial');
-    const circleContainer = document.querySelector('.circle-container');
-    const speechBalloon = document.querySelector('.speech-balloon');
-    const selecter = document.querySelector('#select-input');
-    let idx = 0;
+    firsttutorial();
+});
 
+    function firsttutorial(){
+        const tutorialElement = document.querySelector('.tutorial');
+    const speechBalloon = document.querySelector('.speech-balloon');
+    const selecter = document.querySelector('.input-container');
     const selecterContainerRect = selecter.getBoundingClientRect();
     let speechHeight = speechBalloon.offsetHeight;
     let speechWidth = speechBalloon.offsetWidth;
-    idx+=1;
 
     speechBalloon.style.position = 'absolute';
     speechBalloon.style.top = selecterContainerRect.top - speechHeight - 20 + 'px'; // 20px는 여백을 조절하는 값입니다.
-    speechBalloon.style.left = selecterContainerRect.left -200+ 'px';
+    speechBalloon.style.left = selecterContainerRect.left -500+ 'px';
 
-    selecter.style.backgroundColor = "white";
     selecter.style.zIndex = 1000000;
     tutorialElement.style.display = 'block';
-    speechBalloon.textContent = "선택.";  
-    
-    if (event.type === 'mousedown') {
-        const circleContainerRect = circleContainer.getBoundingClientRect();
+    speechBalloon.textContent = "다음 원소기호 중 하나를 고르세요."; 
+    setTimeout(function() {
+        secondtutorial();
+        selecter.style.zIndex=100;
+}, 3000);
+
+        
+    }
+    function secondtutorial() {
+    const tutorialElement = document.querySelector('.tutorial');
+    const speechBalloon = document.querySelector('.speech-balloon');
+    const circle = document.querySelector('.circle'); // circle 요소 추가
+    let speechHeight = speechBalloon.offsetHeight;
+    let speechWidth = speechBalloon.offsetWidth;
+    const circleContainerRect = circle.getBoundingClientRect();
     speechHeight = speechBalloon.offsetHeight;
     speechWidth = speechBalloon.offsetWidth;
-    idx+=1;
 
     speechBalloon.style.position = 'absolute';
     speechBalloon.style.top = circleContainerRect.top - speechHeight - 20 + 'px'; // 20px는 여백을 조절하는 값입니다.
-    speechBalloon.style.left = circleContainerRect.left -200+ 'px';
-
-    circleContainer.style.backgroundColor = "white";
-    circleContainer.style.zIndex = 1000000;
+    speechBalloon.style.left = circleContainerRect.left - 200 + 'px';
+    circle.style.zIndex = 1000000;
     tutorialElement.style.display = 'block';
-    speechBalloon.textContent = "이것을 끌어서 불꽃에 가져다 둡니다.";  
-    }
-});
+    speechBalloon.textContent = "이것을 끌어서 불꽃에 가져다 둡니다.";
 
+    setTimeout(function () {
+        circle.zIndex=300;
+        tutorialElement.style.zIndex = -100;
+        tutorialElement.style.display = "none";
+        speechBalloon.style.display = "none";
+        flag=true;
+    }, 3000);
+}
 
-    </script>
+   </script>
 </body>
 
 </html>
